@@ -7,12 +7,14 @@ function App() {
   return (
     <div>
       <Header/>
+      <div className='fcontainer'>
       <Card/>
       <Card/>
       <Card/>
       <Card/>
       <Card/>
       <Card/>
+      </div>
       <Footer/>
     </div>
   );
