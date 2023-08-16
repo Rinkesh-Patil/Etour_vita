@@ -16,7 +16,7 @@ const Footer = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          position:"absolute",
+          //position:"absolute",
           scrollY:100
         }}
       >

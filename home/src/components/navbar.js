@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Outlet } from "react-router-dom";
 import React from 'react';
+//import Registration from './Registration';
 
 function Header() {
   return (
@@ -11,7 +12,7 @@ function Header() {
         <Container>
           <Navbar.Brand href="/" >IndiaTour</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#">Registeration</Nav.Link>
+            <Nav.Link href="/Registration">Registration</Nav.Link>
 
             <Nav variant="pills" defaultActiveKey="/home"></Nav>
             <Nav.Item>
