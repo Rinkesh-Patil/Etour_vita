@@ -16,6 +16,8 @@ const Footer = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          position:"absolute",
+          scrollY:100
         }}
       >
         <p style={{ margin: "0", marginRight: "10px", color: "white" }}>
@@ -41,3 +43,4 @@ const Footer = () => {
   };
   
   export default Footer;
+

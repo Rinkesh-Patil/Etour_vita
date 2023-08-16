@@ -11,7 +11,7 @@ function Header() {
         <Container>
           <Navbar.Brand href="/" >IndiaTour</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/Search">Registeration</Nav.Link>
+            <Nav.Link href="#">Registeration</Nav.Link>
 
             <Nav variant="pills" defaultActiveKey="/home"></Nav>
             <Nav.Item>
