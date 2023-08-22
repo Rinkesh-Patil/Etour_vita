@@ -1,33 +1,24 @@
-import { alignPropType } from 'react-bootstrap/esm/types';
-import './App.css';
-import Card from './components/card';
-import Marquee from "react-fast-marquee";
-import Footer from './components/footer';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Search from './components/Search';
+import Signin from './components/Signin';
+import Registration from './components/Registration';
+import Home from './components/Home';
+export default function App(){
+    return(
+        <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          {/* <Route path="/Home" element={<Home />} /> */}
+          <Route path="/Search" element={<Search />} />
+          <Route path="/Signin" element={<Signin />} />
+          <Route path="/Registration" element={<Registration/>} />
+        </Route>
+      </Routes>
 
-import Header from './components/navbar';
-function App() {
-  return (
-    
-    <div>
-      <Header/>
-      
-      <div  className='first-half'>
+    </BrowserRouter>
+  </React.StrictMode>
+    );
 
-      <Card/>
-      <Card/>
-      <Card/>
-      
-    </div>
-   
-    {/* <h1 style={{textAlign:'center'}}>All inclusive tours </h1> */}
-    <div className='sec-half'>
-      <Card/>
-      <Card/>
-      <Card/>
-      </div>
-      <Footer/>
-    </div>
-  );
 }
-
-export default App;

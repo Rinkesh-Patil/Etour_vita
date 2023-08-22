@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-function tinfo() {
+function card({data}) {
   return (
     <Card style={{ width: '18rem' }} className='fcontainer'>
       <Card.Img variant="top" src="holder.js/100px180" />
@@ -19,4 +19,4 @@ function tinfo() {
   );
 }
 
-export default tinfo;
+export default card;

@@ -1,210 +1,184 @@
 import React, { useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-const Registration = () => {
+import { Form, Button } from 'react-bootstrap';
+
+function Registration() {
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    password: '',
-    phone: '',
-    age: '',
-    address: '',
-    countryCode: '',
-    proofId: '',
     gender: '',
+    mobile: '',
+    password: '',
+    confirmPassword: '',
+    birthDate: '',
   });
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
-  };
+    });
+  }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
-    const newErrors = {};
-    for (const key in formData) {
-      if (!formData[key]) {
-        newErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} is required`;
-      }
+    // Validation for email
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!formData.email.match(emailRegex)) {
+      setErrors({ email: 'Invalid email address.' });
+      return;
     }
-    setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
-      // Perform registration logic here
-      console.log('Registration successful');
+    // Validation for mobile number: should be 10 digits and contain only numbers
+    const mobileRegex = /^[0-9]{10}$/;
+    if (!formData.mobile.match(mobileRegex)) {
+      setErrors({ mobile: 'Mobile number must be 10 digits and contain only numbers.' });
+      return;
     }
-  };
+
+    // Validation for birth date: should be in the format YYYY-MM-DD
+    const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!formData.birthDate.match(birthDateRegex)) {
+      setErrors({ birthDate: 'Invalid birth date format (YYYY-MM-DD).' });
+      return;
+    }
+
+    // Validation for password: add your password validation logic here
+    // For example, you can check if it meets certain complexity criteria.
+
+    // Validation for password confirmation
+    if (formData.password !== formData.confirmPassword) {
+      setErrors({ confirmPassword: 'Passwords do not match.' });
+      return;
+    }
+
+    // Reset errors if there are no validation errors
+    setErrors({});
+
+    // Continue with the form submission logic here.
+    // You can add your additional validation and submission code.
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group as={Row} controlId="name">
-        <Form.Label column sm="3">
-          Name
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="text"
-            placeholder="Enter name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            isInvalid={!!errors.name}
-          />
-          <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="firstName">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control
+          type="text"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleInputChange}
+          placeholder="Enter your first name"
+        />
+        {errors.firstName && (
+          <Form.Text className="text-danger">{errors.firstName}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Email */}
-      <Form.Group as={Row} controlId="email">
-        <Form.Label column sm="3">
-          Email
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            isInvalid={!!errors.email}
-          />
-          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="lastName">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control
+          type="text"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleInputChange}
+          placeholder="Enter your last name"
+        />
+        {errors.lastName && (
+          <Form.Text className="text-danger">{errors.lastName}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Password */}
-      <Form.Group as={Row} controlId="password">
-        <Form.Label column sm="3">
-          Password
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            isInvalid={!!errors.password}
-          />
-          <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="email">
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="Enter your email"
+        />
+        {errors.email && (
+          <Form.Text className="text-danger">{errors.email}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Phone */}
-      <Form.Group as={Row} controlId="phone">
-        <Form.Label column sm="3">
-          Phone Number
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="text"
-            placeholder="Enter phone number"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            isInvalid={!!errors.phone}
-          />
-          <Form.Control.Feedback type="invalid">{errors.phone}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="gender">
+        <Form.Label>Gender</Form.Label>
+        <Form.Control
+          as="select"
+          name="gender"
+          value={formData.gender}
+          onChange={handleInputChange}
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </Form.Control>
+        {errors.gender && (
+          <Form.Text className="text-danger">{errors.gender}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Age */}
-      <Form.Group as={Row} controlId="age">
-        <Form.Label column sm="3">
-          Age
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="number"
-            placeholder="Enter age"
-            name="age"
-            value={formData.age}
-            onChange={handleChange}
-            isInvalid={!!errors.age}
-          />
-          <Form.Control.Feedback type="invalid">{errors.age}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="mobile">
+        <Form.Label>Mobile</Form.Label>
+        <Form.Control
+          type="text"
+          name="mobile"
+          value={formData.mobile}
+          onChange={handleInputChange}
+          placeholder="Enter your mobile number"
+        />
+        {errors.mobile && (
+          <Form.Text className="text-danger">{errors.mobile}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Address */}
-      <Form.Group as={Row} controlId="address">
-        <Form.Label column sm="3">
-          Address
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            as="textarea"
-            placeholder="Enter address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            isInvalid={!!errors.address}
-          />
-          <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="password">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          placeholder="Enter your password"
+        />
+        {errors.password && (
+          <Form.Text className="text-danger">{errors.password}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Country Code */}
-      <Form.Group as={Row} controlId="countryCode">
-        <Form.Label column sm="3">
-          Country Code
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="text"
-            placeholder="Enter country code"
-            name="countryCode"
-            value={formData.countryCode}
-            onChange={handleChange}
-            isInvalid={!!errors.countryCode}
-          />
-          <Form.Control.Feedback type="invalid">{errors.countryCode}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="confirmPassword">
+        <Form.Label>Confirm Password</Form.Label>
+        <Form.Control
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          placeholder="Confirm your password"
+        />
+        {errors.confirmPassword && (
+          <Form.Text className="text-danger">{errors.confirmPassword}</Form.Text>
+        )}
       </Form.Group>
 
-      {/* Proof ID */}
-      <Form.Group as={Row} controlId="proofId">
-        <Form.Label column sm="3">
-          Proof ID
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            type="text"
-            placeholder="Enter proof ID"
-            name="proofId"
-            value={formData.proofId}
-            onChange={handleChange}
-            isInvalid={!!errors.proofId}
-          />
-          <Form.Control.Feedback type="invalid">{errors.proofId}</Form.Control.Feedback>
-        </Col>
-      </Form.Group>
-
-      {/* Gender */}
-      <Form.Group as={Row} controlId="gender">
-        <Form.Label column sm="3">
-          Gender
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            as="select"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            isInvalid={!!errors.gender}
-          >
-            <option value="">Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </Form.Control>
-          <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
-        </Col>
+      <Form.Group controlId="birthDate">
+        <Form.Label>Birth Date</Form.Label>
+        <Form.Control
+          type="text"
+          name="birthDate"
+          value={formData.birthDate}
+          onChange={handleInputChange}
+          placeholder="Enter your birth date (YYYY-MM-DD)"
+        />
+        {errors.birthDate && (
+          <Form.Text className="text-danger">{errors.birthDate}</Form.Text>
+        )}
       </Form.Group>
 
       <Button variant="primary" type="submit">
@@ -212,6 +186,6 @@ const Registration = () => {
       </Button>
     </Form>
   );
-};
+}
 
 export default Registration;
