@@ -32,4 +32,49 @@ public class DateMaster {
 	@Column(name="noOfDays")
 	private int noOfDays;
 
+	public int getDepartureId() {
+		return DepartureId;
+	}
+
+	public void setDepartureId(int departureId) {
+		DepartureId = departureId;
+	}
+
+	public String getDepartDate() {
+		return departDate;
+	}
+
+	public void setDepartDate(String departDate) {
+		this.departDate = departDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getNoOfDays() {
+		return noOfDays;
+	}
+
+	public void setNoOfDays(int noOfDays) {
+		this.noOfDays = noOfDays;
+	}
+
+	public DateMaster(int departureId, String departDate, String endDate, int noOfDays) {
+		super();
+		DepartureId = departureId;
+		this.departDate = departDate;
+		this.endDate = endDate;
+		this.noOfDays = noOfDays;
+	}
+
+	public DateMaster() {
+		super();
+	}
+	
+
 }

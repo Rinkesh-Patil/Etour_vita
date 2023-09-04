@@ -35,8 +35,65 @@ public class Sectors {
  @Column(name="sectorImgPath")
  private String sectorImgPath;
  
+ @Column(name="sectorinfo",length=1000)
+ private String sectorinfo;
+ 
  @OneToMany(cascade = CascadeType.ALL)
  @JoinColumn(name = "sectorId", referencedColumnName="sectorId")
  private Set<SubSector> subsector;
+
+public int getSectorId() {
+	return sectorId;
+}
+
+public void setSectorId(int sectorId) {
+	this.sectorId = sectorId;
+}
+
+public String getSectorName() {
+	return sectorName;
+}
+
+public void setSectorName(String sectorName) {
+	this.sectorName = sectorName;
+}
+
+public String getSectorImgPath() {
+	return sectorImgPath;
+}
+
+public void setSectorImgPath(String sectorImgPath) {
+	this.sectorImgPath = sectorImgPath;
+}
+
+public String getSectorinfo() {
+	return sectorinfo;
+}
+
+public void setSectorinfo(String sectorinfo) {
+	this.sectorinfo = sectorinfo;
+}
+
+public Set<SubSector> getSubsector() {
+	return subsector;
+}
+
+public void setSubsector(Set<SubSector> subsector) {
+	this.subsector = subsector;
+}
+
+public Sectors(int sectorId, String sectorName, String sectorImgPath, String sectorinfo, Set<SubSector> subsector) {
+	super();
+	this.sectorId = sectorId;
+	this.sectorName = sectorName;
+	this.sectorImgPath = sectorImgPath;
+	this.sectorinfo = sectorinfo;
+	this.subsector = subsector;
+}
+
+public Sectors() {
+	super();
+}
+ 
   
 }
