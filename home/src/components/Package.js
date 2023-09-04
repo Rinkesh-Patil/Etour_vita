@@ -2,47 +2,45 @@ import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Carosel from './Carosel';
 import { Card, Row, Col } from 'react-bootstrap';
-import Registration from './Registration';
-import { Link } from 'react-router-dom';
+//import Registration from './Registration';
+import { Link, useParams } from 'react-router-dom';
 import SubSector from './SubSector';
+import Iternary from './Iternary';
 
 
-function Home() {
-  const [sector, setSector] = useState([]);
-
+function Package() {
+  const [pack, setPackage] = useState([]);
+const{id}=useParams()
   const getTours = () => {
-    fetch("http://localhost:8080/tour/sectors")
+    fetch("http://localhost:8080/api/package/"+id)
       .then(response => response.json())
-      .then(res => setSector(res));
+      .then(res => setPackage(res));
   }
 
-  
   useEffect(() => {
     getTours();
-    console.log(sector);
-    const data = JSON.stringify(sector);
+    console.log(pack);
+    const data = JSON.stringify(pack);
     console.log(data);
   }, []);
 
-  
   return (
     <div>
       <Carosel />
       <br />
 
       <Row className="justify-content-center">
-        {sector.map(sec => (
+        {pack.map(sec => (
           <Col key={sec.id} md={4} className="mb-4">
             <Card style={{ width: '18rem' }} className='fcontainer'>
             
-              <Card.Img variant="top" src={sec.sectorImgPath} />
+              <Card.Img variant="top" src={sec.packageimgpath} />
 
               <Card.Body>
-              <Link to={"/SubSector/"+sec.sectorId}> {SubSector} 
-                <Card.Title>{sec.sectorName}</Card.Title>
+              <Link to={"/Iternary/"+sec.packageId}> {Iternary} 
+                <Card.Title>{sec.packageName}</Card.Title>
                 </Link>
                 <Card.Text>
-                  {sec.sectorinfo}
                 </Card.Text>
               </Card.Body>
          
@@ -51,9 +49,7 @@ function Home() {
         ))}
       </Row>
     </div>
-    
   );
-
 }
 
-export default Home;
+export default Package;

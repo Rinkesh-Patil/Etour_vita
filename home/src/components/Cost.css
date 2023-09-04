@@ -1,0 +1,90 @@
+/* Container styles */
+.cost-master-container {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.centered-heading {
+  color: #ff4757;
+  font-size: 42px;
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Card styles */
+.cost-card {
+  width: 100%;
+  max-width: 600px;
+  background: linear-gradient(135deg, #f06d6f, #512807); /* Modify the gradient colors */
+  border: none;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+}
+
+
+.cost-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5); /* Stronger shadow on hover */
+}
+
+/* Table styles */
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 18px 26px;
+  text-align: left;
+  border-bottom: 1px solid #f9f9f9;
+  color: #fff;
+}
+
+.table th {
+  background-color: #ff4757;
+}
+
+/* Button styles */
+.button-col {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 40px;
+}
+
+.button-col button {
+  background: linear-gradient(135deg, #ff4757, #ffac41);
+  color: #fff;
+  border: none;
+  padding: 18px 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+}
+
+.button-col button:hover {
+  background: linear-gradient(135deg, #ff3545, #ff9941);
+}

@@ -1,24 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Search from './components/Search';
-import Signin from './components/Signin';
-import Registration from './components/Registration';
-import Home from './components/Home';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Outlet } from 'react-router-dom';
 export default function App(){
     return(
-        <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}>
-          {/* <Route path="/Home" element={<Home />} /> */}
-          <Route path="/Search" element={<Search />} />
-          <Route path="/Signin" element={<Signin />} />
-          <Route path="/Registration" element={<Registration/>} />
-        </Route>
-      </Routes>
+     <div>
+        <Header/>
+        <br />
+         <Outlet></Outlet>
+         <br />
+        <Footer/>
+     </div>
 
-    </BrowserRouter>
-  </React.StrictMode>
     );
 
 }

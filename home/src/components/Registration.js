@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button,Container,Alert } from 'react-bootstrap';
+import './Registration.css'; // Import your custom CSS file
+
+
 
 function Registration() {
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,8 +16,7 @@ function Registration() {
     confirmPassword: '',
     birthDate: '',
   });
-
-  const [errors, setErrors] = useState({});
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -25,46 +28,107 @@ function Registration() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log('Form submitted');
+    const errors = {};
 
-    // Validation for email
+    // Email validation using regular expression
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     if (!formData.email.match(emailRegex)) {
-      setErrors({ email: 'Invalid email address.' });
-      return;
+      errors.email = 'Invalid email address';
     }
 
-    // Validation for mobile number: should be 10 digits and contain only numbers
-    const mobileRegex = /^[0-9]{10}$/;
+    // Mobile validation (assuming a 10-digit mobile number)
+    const mobileRegex = /^\d{10}$/;
     if (!formData.mobile.match(mobileRegex)) {
-      setErrors({ mobile: 'Mobile number must be 10 digits and contain only numbers.' });
-      return;
+      errors.mobile = 'Invalid mobile number';
     }
 
-    // Validation for birth date: should be in the format YYYY-MM-DD
-    const birthDateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!formData.birthDate.match(birthDateRegex)) {
-      setErrors({ birthDate: 'Invalid birth date format (YYYY-MM-DD).' });
-      return;
+    // Date of birth (DOB) validation using regular expression (YYYY-MM-DD)
+    const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!formData.birthDate.match(dobRegex)) {
+      errors.birthDate = 'Invalid date format (YYYY-MM-DD)';
     }
 
-    // Validation for password: add your password validation logic here
-    // For example, you can check if it meets certain complexity criteria.
+    // Required field validation
+    if (!formData.firstName) {
+      errors.firstName = 'First name is required';
+    }
+    if (!formData.lastName) {
+      errors.lastName = 'Last name is required';
+    }
+    if (!formData.gender) {
+      errors.gender = 'Gender is required';
+    }
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    }
+    if (!formData.confirmPassword) {
+      errors.confirmPassword = 'Confirm password is required';
+    }
 
-    // Validation for password confirmation
+    // Check for password match
     if (formData.password !== formData.confirmPassword) {
-      setErrors({ confirmPassword: 'Passwords do not match.' });
-      return;
+      errors.confirmPassword = 'Passwords do not match';
     }
 
-    // Reset errors if there are no validation errors
+    // If there are errors, set them in state and prevent form submission
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
+      return;
+    }
     setErrors({});
 
-    // Continue with the form submission logic here.
-    // You can add your additional validation and submission code.
+    // Create a data object with your form fields
+    const data = {
+      email: formData.email,//entity name as it is = veriable.name at form
+      firstname: formData.firstName,
+      gender: formData.gender,
+      lastname: formData.lastName,
+      mobile: formData.mobile,
+      password: formData.password,
+      dob: formData.birthDate,
+    };
+
+    // Send the data to the backend server
+    fetch("http://localhost:8080/api/CustomerController", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        // Check if the response has data before trying to parse it as JSON
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return res.json();
+        } else {
+          return {}; // Return an empty object if the response is not JSON
+        }
+      })
+      .then((response) => {
+        if (Object.keys(response).length === 0) {
+          // Registration was successful
+          setShowSuccessAlert(true); // Show the success alert
+        } else {
+          alert("Registration successful:", response);
+          // Handle successful registration, e.g., redirecting to a login page
+        }
+      })
+      .catch((error) => {
+        console.error("Registration error:", error);
+        // Handle registration errors here, e.g., display error messages to the user
+      });
+    
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Container className="text-center">
+     <Form onSubmit={handleSubmit} className="my-5 p-3 border rounded">
+        <h1 className="mb-4">Registration 📜</h1>
       <Form.Group controlId="firstName">
         <Form.Label>First Name</Form.Label>
         <Form.Control
@@ -73,6 +137,8 @@ function Registration() {
           value={formData.firstName}
           onChange={handleInputChange}
           placeholder="Enter your first name"
+          className="form-control-sm custom-input"
+          
         />
         {errors.firstName && (
           <Form.Text className="text-danger">{errors.firstName}</Form.Text>
@@ -181,11 +247,19 @@ function Registration() {
         )}
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" className="mt-3">
         Register
       </Button>
     </Form>
+    {showSuccessAlert && (
+        <Alert variant="success" className="mt-3">
+          Registration successful! <br /> Please Login Again  {/* You can customize this message */}
+        </Alert>
+      )}
+    </Container>
   );
 }
 
+
 export default Registration;
+
